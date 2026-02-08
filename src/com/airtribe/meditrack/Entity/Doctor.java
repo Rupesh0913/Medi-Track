@@ -1,6 +1,6 @@
-package com.airtribe.mediTrack.Entity;
+package com.airtribe.meditrack.Entity;
 
-import com.airtribe.mediTrack.Exception.InvalidDataException;
+import com.airtribe.meditrack.Exception.InvalidDataException;
 
 public class Doctor extends Person {
 
@@ -17,6 +17,14 @@ public class Doctor extends Person {
         }
         this.specialization = specialization;
         this.consultationFee = consultationFee;
+    }
+
+    public Specialization getSpecialization() {
+        return specialization;
+    }
+
+    public double getConsultationFee() {
+        return consultationFee;
     }
 
     public void updateConsultationFee(double newFee) {

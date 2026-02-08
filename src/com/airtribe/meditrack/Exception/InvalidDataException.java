@@ -1,4 +1,4 @@
-package com.airtribe.mediTrack.Exception;
+package com.airtribe.meditrack.Exception;
 
 public class InvalidDataException extends RuntimeException{
     public InvalidDataException(String message) {

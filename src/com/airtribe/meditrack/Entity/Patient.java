@@ -1,6 +1,6 @@
-package com.airtribe.mediTrack.Entity;
+package com.airtribe.meditrack.Entity;
 
-import com.airtribe.mediTrack.Exception.InvalidDataException;
+import com.airtribe.meditrack.Exception.InvalidDataException;
 
 public class Patient extends Person{
 
@@ -19,7 +19,7 @@ public class Patient extends Person{
     }
 
     public void updateDisease(String newDisease)  {
-        if (newDisease == null || newDisease.isEmpty()) {
+        if (newDisease == null || newDisease.trim().isEmpty()) {
             throw new InvalidDataException("Disease cannot be empty");
         }
         this.disease = newDisease;

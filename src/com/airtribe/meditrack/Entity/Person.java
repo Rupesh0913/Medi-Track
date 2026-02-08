@@ -1,8 +1,8 @@
-package com.airtribe.mediTrack.Entity;
+package com.airtribe.meditrack.Entity;
 
 public abstract class Person {
 
-    protected String id;
+    protected final String id;
     protected String name;
     protected int age;
 
