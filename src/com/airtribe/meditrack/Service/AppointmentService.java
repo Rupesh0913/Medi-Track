@@ -5,6 +5,8 @@ import com.airtribe.meditrack.Entity.Bill;
 import com.airtribe.meditrack.Entity.Doctor;
 import com.airtribe.meditrack.Entity.Patient;
 import com.airtribe.meditrack.Exception.InvalidDataException;
+import com.airtribe.meditrack.Observer.ConsoleNotificationObserver;
+import com.airtribe.meditrack.Util.AIHelper;
 import com.airtribe.meditrack.Util.BillFactory;
 import com.airtribe.meditrack.Util.DataStore;
 import com.airtribe.meditrack.Util.IdGenerator;
@@ -22,6 +24,7 @@ public class AppointmentService {
 
         String id = IdGenerator.getInstance().nextAppointmentId();
         Appointment appointment = new Appointment(id, doctor, patient, time);
+        appointment.registerObserver(new ConsoleNotificationObserver());
         appointmentStore.save(id, appointment);
         return appointment;
     }
@@ -56,5 +59,27 @@ public class AppointmentService {
         }
         return appointment;
     }
+
+    public Appointment createAppointmentWithAI(Doctor doctor,
+                                               Patient patient) {
+
+        String id = IdGenerator.getInstance().nextAppointmentId();
+
+        LocalDateTime suggestedTime = AIHelper.suggestAppointmentTime();
+
+        Appointment appointment = new Appointment(
+                id,
+                doctor,
+                patient,
+                suggestedTime
+        );
+
+        appointment.registerObserver(new ConsoleNotificationObserver());
+
+        appointmentStore.save(id, appointment);
+
+        return appointment;
+    }
+
 
 }

@@ -1,8 +1,9 @@
 package com.airtribe.meditrack.Entity;
 
 import com.airtribe.meditrack.Exception.InvalidDataException;
+import com.airtribe.meditrack.Interface.Searchable;
 
-public class Doctor extends Person {
+public class Doctor extends Person implements Searchable {
 
     private Specialization specialization;
     private double consultationFee;
@@ -52,6 +53,19 @@ public class Doctor extends Person {
         return "Doctor{" +
                 "specialization=" + specialization +
                 ", consultationFee=" + consultationFee +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
                 '}';
+    }
+
+    @Override
+    public boolean matches(String keyword) {
+        if (keyword == null) return false;
+
+        String lowerKeyword = keyword.toLowerCase();
+
+        return getName().toLowerCase().contains(lowerKeyword)
+                || specialization.name().toLowerCase().contains(lowerKeyword);
     }
 }

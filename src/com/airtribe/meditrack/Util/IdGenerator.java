@@ -7,7 +7,12 @@ public class IdGenerator {
     private long doctorCounter = 0;
     private long patientCounter = 0;
 
-    private static final IdGenerator INSTANCE = new IdGenerator();
+    private static final IdGenerator INSTANCE ;
+
+    static {
+        INSTANCE = new IdGenerator();
+        System.out.println("IdGenerator initialized.");
+    }
 
     private IdGenerator() {}
 

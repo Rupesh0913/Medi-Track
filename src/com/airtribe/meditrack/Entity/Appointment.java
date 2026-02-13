@@ -1,13 +1,32 @@
 package com.airtribe.meditrack.Entity;
 import com.airtribe.meditrack.Exception.InvalidDataException;
-import java.time.LocalDateTime;
+import com.airtribe.meditrack.Observer.AppointmentObserver;
 
-public class Appointment {
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Appointment implements Cloneable{
     private final String appointmentId;
     private final Doctor doctor;
     private final Patient patient;
     private final LocalDateTime appointmentTime;
     private AppointmentStatus status;
+    private final List<AppointmentObserver> observers = new ArrayList<>();
+
+    public void registerObserver(AppointmentObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(AppointmentObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (AppointmentObserver observer : observers) {
+            observer.update(this);
+        }
+    }
 
     public Appointment(String appointmentId, Doctor doctor, Patient patient, LocalDateTime appointmentTime) {
 
@@ -56,6 +75,7 @@ public class Appointment {
             throw new InvalidDataException("Cancelled appointment cannot be completed");
         }
         this.status = AppointmentStatus.CONFIRMED;
+        notifyObservers();
     }
 
     public void cancel() {
@@ -63,6 +83,7 @@ public class Appointment {
             throw new InvalidDataException("Appointment already cancelled");
         }
         this.status = AppointmentStatus.CANCELLED;
+        notifyObservers();
     }
 
     @Override
@@ -75,4 +96,26 @@ public class Appointment {
                 ", status=" + status +
                 '}';
     }
+
+    @Override
+    public Appointment clone() {
+        try {
+            Appointment cloned = (Appointment) super.clone();
+
+            Patient clonedPatient = this.patient.clone();
+
+            Doctor sameDoctor = this.doctor;
+
+            return new Appointment(
+                    this.appointmentId,
+                    sameDoctor,
+                    clonedPatient,
+                    this.appointmentTime
+            );
+
+        } catch (Exception e) {
+            throw new RuntimeException("Appointment cloning failed", e);
+        }
+    }
+
 }
