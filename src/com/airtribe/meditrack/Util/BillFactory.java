@@ -9,7 +9,9 @@ public class BillFactory {
     private BillFactory() {
     }
 
-    public static Bill createBill(String billId, Appointment appointment) {
+    public static Bill createBill(Appointment appointment) {
+
+        String billId = IdGenerator.getInstance().nextBillId();
 
         if (appointment == null) {
             throw new InvalidDataException("Appointment cannot be null");
